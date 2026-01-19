@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROVA INVALSI Italiano - IA (PEI Differenziato)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 15px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4CAF50;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .question-number {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .question-text {
+            font-size: 15px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            transition: background 0.2s ease;
+        }
+
+        .option input[type="radio"]:checked + label {
+            background: #e3f2fd;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .fill-blank {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .fill-blank input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .text-response {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .results-container {
+            display: none;
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .score-display {
+            font-size: 60px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .score-label {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .results-details {
+            margin-top: 30px;
+            text-align: left;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .detail-score {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .save-status {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 6px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .save-status.show {
+            opacity: 1;
+        }
+
+        .text-box {
+            background: #f0f7ff;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f0f0f0;
+            font-weight: 600;
+        }
+
+        td input {
+            width: 100%;
+            padding: 8px;
+            border: none;
+            font-size: 14px;
+        }
+
+        .biblio-box {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #2196F3;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PROVA INVALSI DI ITALIANO</h1>
+            <p>Intelligenza Artificiale</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- TESTO -->
+            <div class="section">
+                <div class="section-title">Leggi il testo</div>
+                <div class="text-box">
+                    <h3 style="color: #667eea; margin-bottom: 15px;">L'Intelligenza Artificiale nella nostra vita</h3>
+                    
+                    <p style="margin-bottom: 15px;">L'intelligenza artificiale, chiamata anche IA, è una tecnologia che sta cambiando il mondo. L'IA è un programma per computer che può imparare e fare cose intelligenti, come un cervello umano. Negli ultimi anni, l'IA è diventata sempre più importante in molti settori della società.</p>
+
+                    <p style="margin-bottom: 15px;">L'IA nasce negli anni Cinquanta del Novecento, quando i primi scienziati hanno iniziato a pensare a macchine capaci di ragionare come gli uomini. All'inizio, l'IA era solo un'idea. I computer erano grandi e molto lenti. Non potevano fare molte cose. Con il passare degli anni, i computer sono diventati più veloci e più piccoli. La tecnologia è progredita molto.</p>
+
+                    <p style="margin-bottom: 15px;">Un tipo particolare di IA sono i Modelli di Linguaggio di Grandi Dimensioni, chiamati anche LLM. Gli LLM sono programmi molto complessi che imparano a comprendere e a produrre testo. Vengono addestrati utilizzando enormi quantità di testo tratto da internet, libri e altri documenti. Durante l'addestramento, il computer legge migliaia di miliardi di parole e impara i modelli di come le parole si collegano tra loro. Questo processo richiede settimane e molta energia elettrica. Dopo l'addestramento, gli LLM possono rispondere a domande, scrivere testi, tradurre lingue e molto altro ancora. Tuttavia, gli LLM non comprendono veramente il significato: riconoscono soltanto i modelli statistici delle parole.</p>
+
+                    <p style="margin-bottom: 15px;">Oggi l'IA è presente in molti oggetti che usiamo ogni giorno. Lo smartphone riconosce la nostra faccia. Le automobili intelligenti possono guidare da sole. I robot possono pulire le case. I servizi online, come i film che guardiamo, ci suggeriscono cosa ci piace guardare. Gli ospedali usano l'IA per diagnosticare le malattie. Le banche la usano per riconoscere le frodi. Anche le scuole stanno iniziando a usare l'IA per aiutare gli studenti a imparare meglio. Gli studenti possono utilizzare gli LLM per ottenere spiegazioni di argomenti difficili, per scrivere riassunti o per generare idee per i compiti. Tuttavia, esiste un rischio importante: l'uso passivo e acritico dell'IA può danneggiare l'apprendimento. Se uno studente copia direttamente le risposte generate dall'LLM senza verificare le informazioni, senza ragionare criticamente e senza imparare veramente, non sviluppa le competenze necessarie. Inoltre, gli LLM possono generare informazioni scorrette che sembrano plausibili, un fenomeno chiamato "allucinazione". Per questo motivo, è fondamentale che gli studenti utilizzino l'IA come supporto al pensiero critico, non come sostituto.</p>
+
+                    <p style="margin-bottom: 15px;">L'IA porta molti vantaggi. Può fare lavori pericolosi al posto degli uomini. Può elaborare moltissimi dati in poco tempo. Può trovare soluzioni a problemi difficili. Ma l'IA ha anche alcuni rischi. Alcuni esperti si chiedono se in futuro potrebbe diventare più intelligente degli uomini. Un altro rischio riguarda l'uso passivo dello strumento: le persone potrebbero diventare pigre mentalmente e smettere di pensare criticamente. Se tutti usano l'IA senza farsi domande, potrebbero accettare informazioni false senza verificarle. Inoltre, gli LLM sono addestrati su dati che contengono bias, cioè pregiudizi umani, e possono riprodurre questi pregiudizi nelle loro risposte. Bisogna usare l'IA in modo responsabile, consapevole e critico.</p>
+
+                    <p style="margin-bottom: 0;">Il futuro dell'IA è ancora incerto. Gli scienziati continuano a studiarla e a migliorarla. Probabilmente negli anni a venire, l'IA sarà ancora più presente nelle nostre vite. Per questo motivo, è importante che tutti comprendiamo come funziona, come viene addestrata e quali sono i suoi effetti. L'IA non è una cosa da temere, ma una tecnologia che richiede consapevolezza, spirito critico e responsabilità individuale. Nel contesto scolastico, gli studenti devono imparare a utilizzare l'IA come uno strumento di supporto al ragionamento, non come una scorciatoia per evitare lo studio. Solo così l'IA potrà contribuire positivamente al progresso della società.</p>
+                </div>
+            </div>
+
+            <!-- SEZIONE 1: VERO/FALSO -->
+            <div class="section" id="section1">
+                <div class="section-title">Sezione 1: Domande Vero/Falso</div>
+                
+                <div style="background: #e8f4f8; border-left: 4px solid #2196F3; padding: 15px; margin-bottom: 25px; border-radius: 4px;">
+                    <strong style="display: block; margin-bottom: 8px; color: #0d47a1;">📌 Istruzioni:</strong>
+                    <p style="margin: 0; font-size: 14px; color: #333; line-height: 1.6;">Leggi ogni frase. Scegli <strong>VERO</strong> se è corretta secondo il testo. Scegli <strong>FALSO</strong> se è sbagliata.</p>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 1</div>
+                    <div class="question-text">L'intelligenza artificiale è nata negli anni Cinquanta del Novecento.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q1a" name="q1" value="VERO">
+                            <label for="q1a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1b" name="q1" value="FALSO">
+                            <label for="q1b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 2</div>
+                    <div class="question-text">All'inizio, l'IA era subito molto potente e veloce.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q2a" name="q2" value="VERO">
+                            <label for="q2a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2b" name="q2" value="FALSO">
+                            <label for="q2b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 3</div>
+                    <div class="question-text">Gli LLM sono programmi che imparano a comprendere e a produrre testo.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q3a" name="q3" value="VERO">
+                            <label for="q3a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3b" name="q3" value="FALSO">
+                            <label for="q3b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 4</div>
+                    <div class="question-text">Gli LLM vengono addestrati con enormi quantità di testo da internet, libri e altri documenti.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q4a" name="q4" value="VERO">
+                            <label for="q4a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4b" name="q4" value="FALSO">
+                            <label for="q4b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 5</div>
+                    <div class="question-text">Gli LLM comprendono veramente il significato delle parole, come gli umani.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q5a" name="q5" value="VERO">
+                            <label for="q5a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5b" name="q5" value="FALSO">
+                            <label for="q5b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 6</div>
+                    <div class="question-text">L'uso passivo dell'IA a scuola è sempre positivo e non crea problemi.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q6a" name="q6" value="VERO">
+                            <label for="q6a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6b" name="q6" value="FALSO">
+                            <label for="q6b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 7</div>
+                    <div class="question-text">"Allucinazione" significa che gli LLM generano informazioni scorrette che sembrano vere.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q7a" name="q7" value="VERO">
+                            <label for="q7a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7b" name="q7" value="FALSO">
+                            <label for="q7b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 8</div>
+                    <div class="question-text">L'IA a scuola deve essere usata come uno strumento per aiutare il pensiero critico.</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q8a" name="q8" value="VERO">
+                            <label for="q8a">VERO</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8b" name="q8" value="FALSO">
+                            <label for="q8b">FALSO</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEZIONE 2: COMPLETAMENTO -->
+            <div class="section" id="section2">
+                <div class="section-title">Sezione 2: Completa le Frasi</div>
+
+                <div style="background: #fffacd; border: 2px solid #ffd700; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+                    <strong style="color: #333; display: block; margin-bottom: 10px;">📋 Parole da usare:</strong>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 14px;">
+                        <span style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">programma</span>
+                        <span style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">modelli</span>
+                        <span style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">collegano</span>
+                        <span style="background: white; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">allucinazione</span>
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 9</div>
+                    <div class="question-text">L'IA è un _________________ per computer.</div>
+                    <div class="fill-blank">
+                        <input type="text" id="q11" placeholder="Scrivi la parola...">
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 10</div>
+                    <div class="question-text">Il computer impara i _________________ di come le parole si _________________ tra loro.</div>
+                    <div class="fill-blank">
+                        <input type="text" id="q12a" placeholder="Prima parola...">
+                        <input type="text" id="q12b" placeholder="Seconda parola...">
+                    </div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 11</div>
+                    <div class="question-text">Un rischio degli LLM è l'_________________: possono dire cose che non sono vere.</div>
+                    <div class="fill-blank">
+                        <input type="text" id="q13" placeholder="Scrivi la parola...">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEZIONE 3: DOMANDE APERTE -->
+            <div class="section" id="section3">
+                <div class="section-title">Sezione 3: Rispondi con Parole Tue</div>
+
+                <div style="background: #e8f4f8; border-left: 4px solid #2196F3; padding: 15px; margin-bottom: 25px; border-radius: 4px;">
+                    <strong style="display: block; margin-bottom: 8px; color: #0d47a1;">💡 Come rispondere:</strong>
+                    <p style="margin: 0; font-size: 14px; color: #333; line-height: 1.6;">Scrivi una frase CORTA che spiega quello che hai letto. Non serve essere perfetto.</p>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 12</div>
+                    <div class="question-text">Cosa NON capisce veramente un LLM, secondo il testo?</div>
+                    <textarea class="text-response" id="q16" placeholder="Scrivi una frase corta..."></textarea>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 13</div>
+                    <div class="question-text">Perché diventare pigri mentalmente è un problema quando usiamo l'IA?</div>
+                    <textarea class="text-response" id="q17" placeholder="Scrivi una frase corta..."></textarea>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda 14</div>
+                    <div class="question-text">Scrivi come puoi usare l'IA a scuola in modo GIUSTO.</div>
+                    <textarea class="text-response" id="q18" placeholder="Scrivi una frase corta..."></textarea>
+                </div>
+            </div>
+
+            <!-- SEZIONE 4: TABELLA -->
+            <div class="section" id="section4">
+                <div class="section-title">Sezione 4: Completa la Tabella</div>
+
+                <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 15px; margin-bottom: 25px; border-radius: 4px;">
+                    <strong style="display: block; margin-bottom: 8px; color: #2e7d32;">✓ Istruzioni:</strong>
+                    <p style="margin: 0; font-size: 14px; color: #333; line-height: 1.6;">Leggi la domanda nella colonna di sinistra. Scrivi la risposta nella casella a destra. Tutte le risposte sono nel testo.</p>
+                </div>
+
+                <div class="question">
+                    <div class="question-text">Completa la tabella:</div>
+                    <table>
+                        <tr style="background: #f0f0f0;">
+                            <th>Cosa devi trovare</th>
+                            <th>Scrivi la risposta</th>
+                        </tr>
+                        <tr>
+                            <td>Come vengono addestrati gli LLM?</td>
+                            <td><input type="text" id="t1" placeholder="Rispondi..."></td>
+                        </tr>
+                        <tr style="background: #fafafa;">
+                            <td>Cosa imparano gli LLM?</td>
+                            <td><input type="text" id="t2" placeholder="Rispondi..."></td>
+                        </tr>
+                        <tr>
+                            <td>Cosa NON comprendono gli LLM?</td>
+                            <td><input type="text" id="t3" placeholder="Rispondi..."></td>
+                        </tr>
+                        <tr style="background: #fafafa;">
+                            <td>Quale rischio c'è per gli studenti?</td>
+                            <td><input type="text" id="t4" placeholder="Rispondi..."></td>
+                        </tr>
+                        <tr>
+                            <td>Come bisogna usare l'IA a scuola?</td>
+                            <td><input type="text" id="t5" placeholder="Rispondi..."></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- SEZIONE 5: BIBLIOGRAFIA -->
+            <div class="section" id="section5">
+                <div class="section-title">📚 Bibliografia</div>
+                
+                <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; border-left: 4px solid #667eea;">
+                    <p style="margin-bottom: 15px; color: #333; line-height: 1.8; font-size: 14px;">Il testo è stato creato sulla base dei seguenti concetti e fonti scientifiche:</p>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4 style="color: #667eea; margin-bottom: 12px; font-size: 15px;">Riferimenti principali:</h4>
+                        
+                        <div class="biblio-box">
+                            <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">
+                                <strong>McCarthy, J., Minsky, M. L., Rochester, N., & Shannon, C. E. (1956).</strong><br>
+                                <em>Dartmouth Summer Research Project on Artificial Intelligence.</em><br>
+                                <span style="color: #666; font-size: 13px;">Documento fondativo della ricerca in IA.</span>
+                            </p>
+                        </div>
+
+                        <div class="biblio-box">
+                            <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">
+                                <strong>Vaswani, A., Shazeer, N., Parmar, N., et al. (2017).</strong><br>
+                                <em>Attention is All You Need.</em><br>
+                                <span style="color: #666; font-size: 13px;">Fondamentale per comprendere i Modelli di Linguaggio (LLM).</span>
+                            </p>
+                        </div>
+
+                        <div class="biblio-box">
+                            <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">
+                                <strong>Bender, E. M., Gebru, T., et al. (2021).</strong><br>
+                                <em>On the Dangers of Stochastic Parrots.</em><br>
+                                <span style="color: #666; font-size: 13px;">Rischi, bias e allucinazione negli LLM.</span>
+                            </p>
+                        </div>
+
+                        <div class="biblio-box">
+                            <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">
+                                <strong>UNESCO (2023).</strong><br>
+                                <em>Guidance on Generative AI in Education.</em><br>
+                                <span style="color: #666; font-size: 13px;">Uso responsabile dell'IA a scuola.</span>
+                            </p>
+                        </div>
+
+                        <div class="biblio-box">
+                            <p style="margin: 0; color: #333; font-size: 14px; line-height: 1.6;">
+                                <strong>Selinger, E., & Whyte, K. P. (2010).</strong><br>
+                                <em>Ethics and Governance of Artificial Intelligence.</em><br>
+                                <span style="color: #666; font-size: 13px;">Etica dell'IA e consapevolezza critica.</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;">
+                        <p style="color: #666; font-size: 13px; margin: 0; line-height: 1.6;">
+                            
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINE -->
+            <div class="section" id="section-end">
+                <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 20px; border-radius: 4px;">
+                    <h3 style="color: #2e7d32; margin-bottom: 10px;">✓ Prova Completa!</h3>
+                    <p style="margin: 0; color: #333; line-height: 1.6;">Controlla le tue risposte o termina la prova quando sei pronto.</p>
+                </div>
+            </div>
+
+            <!-- PULSANTI -->
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="salvaRisposte()">💾 Salva</button>
+                <button class="btn btn-primary" onclick="inviaProva()">✓ Termina</button>
+            </div>
+
+            <!-- RISULTATI -->
+            <div class="results-container" id="resultsContainer">
+                <h2 style="color: #667eea; margin-bottom: 20px;">Risultati della Prova</h2>
+                <div class="score-display" id="scoreDisplay">0/33.2</div>
+                <div class="score-label">Punteggio totale</div>
+                <div class="results-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Sezione 1 (Vero/Falso):</span>
+                        <span class="detail-score" id="score1">0/20</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Sezione 2 (Completamento):</span>
+                        <span class="detail-score" id="score2">0/8</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Sezione 4 (Tabella):</span>
+                        <span class="detail-score" id="score4">0/5</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Sezione 3 (Aperte - manuale):</span>
+                        <span class="detail-score">Da valutare</span>
+                    </div>
+                </div>
+
+                <div id="answerDetails" style="margin-top: 30px;"></div>
+                <div class="button-group" style="margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="location.reload()">← Ricomincia</button>
+                    <button class="btn btn-primary" onclick="window.print()">🖨️ Stampa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="save-status" id="saveStatus">✓ Risposte salvate</div>
+
+    <script>
+        const solutions = {
+            q1: 'VERO', q2: 'FALSO', q3: 'VERO', q4: 'VERO',
+            q5: 'FALSO', q6: 'FALSO', q7: 'VERO', q8: 'VERO'
+        };
+
+        function caricaRisposte() {
+            const saved = localStorage.getItem('provaRisposte');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        if (element.type === 'radio') {
+                            const radio = document.querySelector(`input[name="${element.name}"][value="${data[key]}"]`);
+                            if (radio) radio.checked = true;
+                        } else {
+                            element.value = data[key];
+                        }
+                    }
+                });
+            }
+        }
+
+        function salvaRisposte() {
+            const data = {};
+            for (let i = 1; i <= 8; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) data[`q${i}`] = selected.value;
+            }
+            ['q11', 'q12a', 'q12b', 'q13', 'q16', 'q17', 'q18', 't1', 't2', 't3', 't4', 't5'].forEach(id => {
+                const elem = document.getElementById(id);
+                if (elem) data[id] = elem.value;
+            });
+            localStorage.setItem('provaRisposte', JSON.stringify(data));
+            
+            const status = document.getElementById('saveStatus');
+            status.classList.add('show');
+            setTimeout(() => status.classList.remove('show'), 3000);
+        }
+
+        function valutaSceltaMultipla() {
+            let score = 0;
+            const dettagli = [];
+            for (let i = 1; i <= 8; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                const corretta = solutions[`q${i}`];
+                const risposta = selected ? selected.value : '';
+                const giusta = selected && selected.value === corretta;
+                if (giusta) score += 2.5;
+                dettagli.push({ num: i, risposta, corretta, giusta });
+            }
+            return { score, dettagli };
+        }
+
+        function valutaCompletamento() {
+            let score = 0;
+            const dettagli = [];
+            
+            const q11 = document.getElementById('q11').value.toLowerCase().trim();
+            const q11OK = q11 === 'programma';
+            if (q11OK) score += 2;
+            dettagli.push({ num: 9, risposta: q11, corretta: 'programma', giusta: q11OK });
+            
+            const q12a = document.getElementById('q12a').value.toLowerCase().trim();
+            const q12aOK = q12a === 'modelli';
+            if (q12aOK) score += 2;
+            dettagli.push({ num: 10, risposta: q12a, corretta: 'modelli', giusta: q12aOK });
+            
+            const q12b = document.getElementById('q12b').value.toLowerCase().trim();
+            const q12bOK = q12b === 'collegano';
+            if (q12bOK) score += 2;
+            dettagli.push({ num: 10, risposta: q12b, corretta: 'collegano', giusta: q12bOK });
+            
+            const q13 = document.getElementById('q13').value.toLowerCase().trim();
+            const q13OK = q13 === 'allucinazione';
+            if (q13OK) score += 2;
+            dettagli.push({ num: 11, risposta: q13, corretta: 'allucinazione', giusta: q13OK });
+            
+            return { score, dettagli };
+        }
+
+        function valutaTabella() {
+            let score = 0;
+            const dettagli = [];
+            const expected = { t1: 'testo', t2: 'modelli', t3: 'significato', t4: 'competenze', t5: 'supporto' };
+            
+            for (let i = 1; i <= 5; i++) {
+                const risposta = document.getElementById(`t${i}`).value.toLowerCase().trim();
+                const keyword = expected[`t${i}`];
+                const giusta = risposta.includes(keyword);
+                if (giusta) score += 1;
+                dettagli.push({ num: i, risposta, keyword, giusta });
+            }
+            return { score, dettagli };
+        }
+
+        function valutaSemistrutturate() {
+            const dettagli = [];
+            [16, 17, 18].forEach(i => {
+                const risposta = document.getElementById(`q${i}`).value.trim();
+                dettagli.push({ num: i, risposta });
+            });
+            return dettagli;
+        }
+
+        function inviaProva() {
+            salvaRisposte();
+            
+            const res1 = valutaSceltaMultipla();
+            const res2 = valutaCompletamento();
+            const res4 = valutaTabella();
+            const res3 = valutaSemistrutturate();
+            
+            const totalScore = res1.score + res2.score + res4.score;
+            
+            document.getElementById('scoreDisplay').textContent = totalScore.toFixed(1) + '/33.2';
+            document.getElementById('score1').textContent = res1.score.toFixed(1) + '/20';
+            document.getElementById('score2').textContent = res2.score.toFixed(1) + '/8';
+            document.getElementById('score4').textContent = res4.score.toFixed(1) + '/5';
+            
+            let html = '<div style="text-align: left;">';
+            
+            html += '<h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 10px; margin-bottom: 20px;">Sezione 1: Vero/Falso</h3>';
+            res1.dettagli.forEach(d => {
+                const color = d.giusta ? '#4CAF50' : '#f44336';
+                const symbol = d.giusta ? '✓' : '✗';
+                html += `<div style="margin-bottom: 15px; padding: 12px; background: ${color}20; border-left: 4px solid ${color}; border-radius: 4px;">
+                    <strong style="color: ${color};">${symbol} Domanda ${d.num}</strong><br>
+                    <span style="font-size: 13px;">Tua risposta: <strong>${d.risposta || '(vuoto)'}</strong></span><br>
+                    <span style="font-size: 13px;">Corretta: <strong>${d.corretta}</strong></span>
+                </div>`;
+            });
+            
+            html += '<h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 10px; margin: 30px 0 20px 0;">Sezione 2: Completamento</h3>';
+            res2.dettagli.forEach(d => {
+                const color = d.giusta ? '#4CAF50' : '#f44336';
+                const symbol = d.giusta ? '✓' : '✗';
+                html += `<div style="margin-bottom: 15px; padding: 12px; background: ${color}20; border-left: 4px solid ${color}; border-radius: 4px;">
+                    <strong style="color: ${color};">${symbol} Domanda ${d.num}</strong><br>
+                    <span style="font-size: 13px;">Tua risposta: <strong>${d.risposta || '(vuoto)'}</strong></span><br>
+                    <span style="font-size: 13px;">Corretta: <strong>${d.corretta}</strong></span>
+                </div>`;
+            });
+            
+            html += '<h3 style="color: #667eea; border-bottom: 2px solid #667eea; padding-bottom: 10px; margin: 30px 0 20px 0;">Sezione 4: Tabella</h3>';
+            res4.dettagli.forEach(d => {
+                const color = d.giusta ? '#4CAF50' : '#f44336';
+                const symbol = d.giusta ? '✓' : '✗';
+                html += `<div style="margin-bottom: 15px; padding: 12px; background: ${color}20; border-left: 4px solid ${color}; border-radius: 4px;">
+                    <strong style="color: ${color};">${symbol} Riga ${d.num}</strong><br>
+                    <span style="font-size: 13px;">Tua risposta: <strong>${d.risposta || '(vuoto)'}</strong></span><br>
+                    <span style="font-size: 13px;">Deve contenere: <strong>${d.keyword}</strong></span>
+                </div>`;
+            });
+            
+            html += '<h3 style="color: #2196F3; border-bottom: 2px solid #2196F3; padding-bottom: 10px; margin: 30px 0 20px 0;">Sezione 3: Domande Aperte (Valutazione Manuale)</h3>';
+            res3.forEach(d => {
+                html += `<div style="margin-bottom: 15px; padding: 12px; background: #f0f0f0; border-left: 4px solid #999; border-radius: 4px;">
+                    <strong>Domanda ${d.num}</strong><br>
+                    <span style="font-size: 13px; color: #333; background: white; padding: 8px; display: block; margin-top: 5px; border-radius: 3px;">${d.risposta || '(non risposto)'}</span>
+                </div>`;
+            });
+            
+            html += '</div>';
+            document.getElementById('answerDetails').innerHTML = html;
+            document.getElementById('resultsContainer').classList.add('show');
+            window.scrollTo(0, 0);
+        }
+
+        function aggiornaProgresso() {
+            let risposte = 0;
+            for (let i = 1; i <= 8; i++) if (document.querySelector(`input[name="q${i}"]:checked`)) risposte++;
+            ['q11', 'q12a', 'q12b', 'q13'].forEach(id => {
+                if (document.getElementById(id).value.trim()) risposte++;
+            });
+            [16, 17, 18].forEach(i => {
+                if (document.getElementById(`q${i}`).value.trim()) risposte++;
+            });
+            for (let i = 1; i <= 5; i++) {
+                if (document.getElementById(`t${i}`).value.trim()) risposte++;
+            }
+            
+            document.getElementById('progressBar').style.width = (risposte / 20) * 100 + '%';
+        }
+
+        document.addEventListener('change', aggiornaProgresso);
+        document.addEventListener('input', aggiornaProgresso);
+        caricaRisposte();
+        aggiornaProgresso();
+        setInterval(salvaRisposte, 30000);
+    </script>
+</body>
+</html>

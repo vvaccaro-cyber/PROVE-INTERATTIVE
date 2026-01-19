@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prova Matematica Interattiva - Allenamento INVALSI</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { 
+      font-family: Arial, sans-serif; 
+      line-height: 1.6; 
+      max-width: 900px; 
+      margin: 0 auto; 
+      padding: 20px; 
+      background: #f5f5f5;
+    }
+    h1 { 
+      color: #003366; 
+      text-align: center; 
+      border-bottom: 3px solid #0066cc;
+      padding-bottom: 10px;
+    }
+    h2 { 
+      color: #003366; 
+      margin-top: 0;
+      margin-bottom: 20px;
+      border-left: none;
+      padding-left: 0;
+      font-size: 1.4em;
+      font-weight: 600;
+    }
+    .intestazione {
+      background: #e8f4f8;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .progress-container {
+      margin: 20px 0;
+    }
+    .progress {
+      background: #ddd;
+      border-radius: 10px;
+      height: 25px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      background: #0066cc;
+      height: 100%;
+      transition: width 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .sezione { 
+      background: white;
+      padding: 25px; 
+      margin: 20px 0; 
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-top: 4px solid #0066cc;
+    }
+    .quesito {
+      margin: 15px 0;
+      padding: 10px;
+      border-left: 3px solid #ccc;
+      padding-left: 15px;
+    }
+    .quesito p {
+      margin: 5px 0;
+      font-weight: bold;
+    }
+    .risposta { 
+      display: block;
+      margin: 8px 0;
+      padding: 5px;
+      cursor: pointer;
+    }
+    input[type="radio"] { 
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    label {
+      cursor: pointer;
+    }
+    table { 
+      border-collapse: collapse; 
+      margin: 15px 0; 
+      width: 100%;
+      background: white;
+    }
+    th, td { 
+      border: 1px solid #999; 
+      padding: 10px; 
+      text-align: center; 
+    }
+    th {
+      background: #0066cc;
+      color: white;
+      font-weight: bold;
+    }
+    .punteggio-box {
+      background: #fff3cd;
+      border: 3px solid #ffc107;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 30px 0;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+    .punteggio-box.eccellente { background: #d4edda; border-color: #28a745; color: #155724; box-shadow: 0 6px 20px rgba(40, 167, 69, 0.2); }
+    .punteggio-box.buono { background: #cce5ff; border-color: #0066cc; color: #004085; box-shadow: 0 6px 20px rgba(0, 102, 204, 0.2); }
+    .punteggio-box.sufficiente { background: #fff3cd; border-color: #ffc107; color: #856404; box-shadow: 0 6px 20px rgba(255, 193, 7, 0.2); }
+    .punteggio-box.insufficiente { background: #f8d7da; border-color: #f5c6cb; color: #721c24; box-shadow: 0 6px 20px rgba(245, 198, 203, 0.2); }
+    .bottoni {
+      text-align: center;
+      margin: 30px 0;
+    }
+    button {
+      background: linear-gradient(135deg, #0066cc 0%, #004499 100%);
+      color: white;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+    }
+    button:hover { 
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+    }
+    #btnSalva {
+      background: #28a745;
+    }
+    #btnSalva:hover {
+      background: #218838;
+    }
+    #btnRipristina {
+      background: #6c757d;
+    }
+    #btnRipristina:hover {
+      background: #5a6268;
+    }
+    .nota-salvataggio {
+      background: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+      display: none;
+    }
+    .risposte-view {
+      display: none;
+      background: white;
+      padding: 20px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+    .risposta-item {
+      padding: 10px;
+      margin: 5px 0;
+      border-left: 3px solid #ddd;
+      padding-left: 10px;
+    }
+    .corretta { background: #d4edda; border-left-color: #28a745; }
+    .errata { background: #f8d7da; border-left-color: #f5c6cb; }
+    .non-risposta { background: #fff3cd; border-left-color: #ffc107; }
+  </style>
+</head>
+<body>
+
+<div style="background: linear-gradient(135deg, #003366 0%, #0066cc 100%); color: white; padding: 40px 20px; text-align: center; border-radius: 10px; margin-bottom: 30px;">
+  <h1 style="margin: 0; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🧮 Prova Matematica Interattiva</h1>
+  <p style="margin: 15px 0 0 0; font-size: 1.1em; opacity: 0.95;">Allenamento INVALSI - Tempo consigliato: 60 minuti</p>
+  <p id="progress-text" style="margin: 10px 0 0 0; font-size: 1em; opacity: 0.9;"><strong>Progresso: 0/47 risposte date</strong></p>
+</div>
+
+<div class="progress-container">
+  <div class="progress">
+    <div class="progress-bar" id="progress-bar" style="width: 0%">0%</div>
+  </div>
+</div>
+
+<div id="test">
+
+  <!-- SEZIONE A -->
+  <div class="sezione">
+    <h2>Sezione A – Calcolo e algebra (12 quesiti)</h2>
+    
+    <div class="quesito">
+      <p>1. 24 + 37 =</p>
+      <label class="risposta"><input type="radio" name="q1" value="a"> a) 61</label>
+      <label class="risposta"><input type="radio" name="q1" value="b"> b) 51</label>
+    </div>
+
+    <div class="quesito">
+      <p>2. 85 − 28 =</p>
+      <label class="risposta"><input type="radio" name="q2" value="a"> a) 57</label>
+      <label class="risposta"><input type="radio" name="q2" value="b"> b) 63</label>
+    </div>
+
+    <div class="quesito">
+      <p>3. 7 × 6 =</p>
+      <label class="risposta"><input type="radio" name="q3" value="a"> a) 42</label>
+      <label class="risposta"><input type="radio" name="q3" value="b"> b) 48</label>
+    </div>
+
+    <div class="quesito">
+      <p>4. 72 ÷ 8 =</p>
+      <label class="risposta"><input type="radio" name="q4" value="a"> a) 9</label>
+      <label class="risposta"><input type="radio" name="q4" value="b"> b) 8</label>
+    </div>
+
+    <div class="quesito">
+      <p>5. (−3) + (+8) =</p>
+      <label class="risposta"><input type="radio" name="q5" value="a"> a) +5</label>
+      <label class="risposta"><input type="radio" name="q5" value="b"> b) −5</label>
+    </div>
+
+    <div class="quesito">
+      <p>6. (−4) × (−2) =</p>
+      <label class="risposta"><input type="radio" name="q6" value="a"> a) +8</label>
+      <label class="risposta"><input type="radio" name="q6" value="b"> b) −8</label>
+    </div>
+
+    <div class="quesito">
+      <p>7. 2⁴ =</p>
+      <label class="risposta"><input type="radio" name="q7" value="a"> a) 16</label>
+      <label class="risposta"><input type="radio" name="q7" value="b"> b) 8</label>
+    </div>
+
+    <div class="quesito">
+      <p>8. √49 =</p>
+      <label class="risposta"><input type="radio" name="q8" value="a"> a) 7</label>
+      <label class="risposta"><input type="radio" name="q8" value="b"> b) 9</label>
+    </div>
+
+    <div class="quesito">
+      <p>9. 3x + 2x =</p>
+      <label class="risposta"><input type="radio" name="q9" value="a"> a) 5x</label>
+      <label class="risposta"><input type="radio" name="q9" value="b"> b) 6x</label>
+    </div>
+
+    <div class="quesito">
+      <p>10. (x + 2) + (x + 3) =</p>
+      <label class="risposta"><input type="radio" name="q10" value="a"> a) 2x + 5</label>
+      <label class="risposta"><input type="radio" name="q10" value="b"> b) x + 5</label>
+    </div>
+
+    <div class="quesito">
+      <p>11. (x + 4) − (x + 1) =</p>
+      <label class="risposta"><input type="radio" name="q11" value="a"> a) 3</label>
+      <label class="risposta"><input type="radio" name="q11" value="b"> b) x + 3</label>
+    </div>
+
+    <div class="quesito">
+      <p>12. (2x) · (3) =</p>
+      <label class="risposta"><input type="radio" name="q12" value="a"> a) 6x</label>
+      <label class="risposta"><input type="radio" name="q12" value="b"> b) 5x</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE B -->
+  <div class="sezione">
+    <h2>Sezione B – Equazioni (6 quesiti)</h2>
+
+    <div class="quesito">
+      <p>13. x + 5 = 12. Quanto vale x?</p>
+      <label class="risposta"><input type="radio" name="q13" value="a"> a) 7</label>
+      <label class="risposta"><input type="radio" name="q13" value="b"> b) 17</label>
+    </div>
+
+    <div class="quesito">
+      <p>14. 2x = 10. Quanto vale x?</p>
+      <label class="risposta"><input type="radio" name="q14" value="a"> a) 5</label>
+      <label class="risposta"><input type="radio" name="q14" value="b"> b) 20</label>
+    </div>
+
+    <div class="quesito">
+      <p>15. x − 3 = 9. Quanto vale x?</p>
+      <label class="risposta"><input type="radio" name="q15" value="a"> a) 12</label>
+      <label class="risposta"><input type="radio" name="q15" value="b"> b) 6</label>
+    </div>
+
+    <div class="quesito">
+      <p>16. 3x + 1 = 10. Quanto vale x?</p>
+      <label class="risposta"><input type="radio" name="q16" value="a"> a) 3</label>
+      <label class="risposta"><input type="radio" name="q16" value="b"> b) 4</label>
+    </div>
+
+    <div class="quesito">
+      <p>17. 4x − 8 = 0. Quanto vale x?</p>
+      <label class="risposta"><input type="radio" name="q17" value="a"> a) 2</label>
+      <label class="risposta"><input type="radio" name="q17" value="b"> b) −2</label>
+    </div>
+
+    <div class="quesito">
+      <p>18. x/3 = 4. Quanto vale x?</p>
+      <label class="risposta"><input type="radio" name="q18" value="a"> a) 12</label>
+      <label class="risposta"><input type="radio" name="q18" value="b"> b) 7</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE C -->
+  <div class="sezione">
+    <h2>Sezione C – Disequazioni (6 quesiti)</h2>
+
+    <div class="quesito">
+      <p>19. x + 2 > 5. È vero che:</p>
+      <label class="risposta"><input type="radio" name="q19" value="a"> a) x > 3</label>
+      <label class="risposta"><input type="radio" name="q19" value="b"> b) x < 3</label>
+    </div>
+
+    <div class="quesito">
+      <p>20. 2x < 8. È vero che:</p>
+      <label class="risposta"><input type="radio" name="q20" value="a"> a) x < 4</label>
+      <label class="risposta"><input type="radio" name="q20" value="b"> b) x > 4</label>
+    </div>
+
+    <div class="quesito">
+      <p>21. x − 1 ≥ 0. È vero che:</p>
+      <label class="risposta"><input type="radio" name="q21" value="a"> a) x ≥ 1</label>
+      <label class="risposta"><input type="radio" name="q21" value="b"> b) x ≤ 1</label>
+    </div>
+
+    <div class="quesito">
+      <p>22. 3x ≤ 12. È vero che:</p>
+      <label class="risposta"><input type="radio" name="q22" value="a"> a) x ≤ 4</label>
+      <label class="risposta"><input type="radio" name="q22" value="b"> b) x ≥ 4</label>
+    </div>
+
+    <div class="quesito">
+      <p>23. x + 5 < 10. È vero che:</p>
+      <label class="risposta"><input type="radio" name="q23" value="a"> a) x < 5</label>
+      <label class="risposta"><input type="radio" name="q23" value="b"> b) x > 5</label>
+    </div>
+
+    <div class="quesito">
+      <p>24. 5x ≥ 15. È vero che:</p>
+      <label class="risposta"><input type="radio" name="q24" value="a"> a) x ≥ 3</label>
+      <label class="risposta"><input type="radio" name="q24" value="b"> b) x ≤ 3</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE D -->
+  <div class="sezione">
+    <h2>Sezione D – Significato di limiti e derivate (4 quesiti)</h2>
+
+    <div class="quesito">
+      <p>25. La funzione y = x rappresenta una retta che sale da sinistra a destra.</p>
+      <label class="risposta"><input type="radio" name="q25" value="a"> a) Vero</label>
+      <label class="risposta"><input type="radio" name="q25" value="b"> b) Falso</label>
+    </div>
+
+    <div class="quesito">
+      <p>26. Se x si avvicina a 0, la funzione y = 2x si avvicina a:</p>
+      <label class="risposta"><input type="radio" name="q26" value="a"> a) 0</label>
+      <label class="risposta"><input type="radio" name="q26" value="b"> b) 2</label>
+    </div>
+
+    <div class="quesito">
+      <p>27. La derivata, in modo semplice, misura:</p>
+      <label class="risposta"><input type="radio" name="q27" value="a"> a) La pendenza (come sale o scende una funzione)</label>
+      <label class="risposta"><input type="radio" name="q27" value="b"> b) Il colore della funzione</label>
+    </div>
+
+    <div class="quesito">
+      <p>28. Se una retta è orizzontale, la sua pendenza è:</p>
+      <label class="risposta"><input type="radio" name="q28" value="a"> a) 0</label>
+      <label class="risposta"><input type="radio" name="q28" value="b"> b) 1</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE E -->
+  <div class="sezione">
+    <h2>Sezione E – Geometria (4 quesiti)</h2>
+
+    <div class="quesito">
+      <p>29. Un quadrato ha:</p>
+      <label class="risposta"><input type="radio" name="q29" value="a"> a) 4 lati uguali</label>
+      <label class="risposta"><input type="radio" name="q29" value="b"> b) 2 lati uguali</label>
+    </div>
+
+    <div class="quesito">
+      <p>30. La somma degli angoli interni di un triangolo è:</p>
+      <label class="risposta"><input type="radio" name="q30" value="a"> a) 180°</label>
+      <label class="risposta"><input type="radio" name="q30" value="b"> b) 90°</label>
+    </div>
+
+    <div class="quesito">
+      <p>31. Il perimetro di un rettangolo 4 cm × 6 cm è:</p>
+      <label class="risposta"><input type="radio" name="q31" value="a"> a) 20 cm</label>
+      <label class="risposta"><input type="radio" name="q31" value="b"> b) 24 cm</label>
+    </div>
+
+    <div class="quesito">
+      <p>32. L'area di un rettangolo 3 cm × 5 cm è:</p>
+      <label class="risposta"><input type="radio" name="q32" value="a"> a) 15 cm²</label>
+      <label class="risposta"><input type="radio" name="q32" value="b"> b) 8 cm²</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE F -->
+  <div class="sezione">
+    <h2>Sezione F – Piccoli problemi di logica (6 quesiti)</h2>
+
+    <div class="quesito">
+      <p>33. Se tutti i gatti sono animali, e Micio è un gatto, allora Micio è:</p>
+      <label class="risposta"><input type="radio" name="q33" value="a"> a) Un animale</label>
+      <label class="risposta"><input type="radio" name="q33" value="b"> b) Una pianta</label>
+    </div>
+
+    <div class="quesito">
+      <p>34. Marco è più alto di Luca. Luca è più alto di Paolo. Chi è il più basso?</p>
+      <label class="risposta"><input type="radio" name="q34" value="a"> a) Paolo</label>
+      <label class="risposta"><input type="radio" name="q34" value="b"> b) Marco</label>
+    </div>
+
+    <div class="quesito">
+      <p>35. In una fila ci sono 5 persone. Anna è seconda. Quante persone ci sono davanti a lei?</p>
+      <label class="risposta"><input type="radio" name="q35" value="a"> a) 1</label>
+      <label class="risposta"><input type="radio" name="q35" value="b"> b) 2</label>
+    </div>
+
+    <div class="quesito">
+      <p>36. Sequenza: 2, 4, 6, 8, … Il numero successivo è:</p>
+      <label class="risposta"><input type="radio" name="q36" value="a"> a) 10</label>
+      <label class="risposta"><input type="radio" name="q36" value="b"> b) 12</label>
+    </div>
+
+    <div class="quesito">
+      <p>37. Un autobus ha 20 posti. Salgono 7 persone. Quanti posti restano liberi?</p>
+      <label class="risposta"><input type="radio" name="q37" value="a"> a) 13</label>
+      <label class="risposta"><input type="radio" name="q37" value="b"> b) 27</label>
+    </div>
+
+    <div class="quesito">
+      <p>38. Un negozio vende penne a 2 euro l'una. Quante penne compro con 6 euro?</p>
+      <label class="risposta"><input type="radio" name="q38" value="a"> a) 3</label>
+      <label class="risposta"><input type="radio" name="q38" value="b"> b) 6</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE G -->
+  <div class="sezione">
+    <h2>Sezione G – Lettura di tabelle (5 quesiti)</h2>
+
+    <p><strong>Tabella 1 – Libri letti in un mese</strong></p>
+    <table>
+      <tr>
+        <th>Studente</th>
+        <th>Libri letti</th>
+      </tr>
+      <tr>
+        <td>Anna</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Marco</td>
+        <td>4</td>
+      </tr>
+      <tr>
+        <td>Luca</td>
+        <td>1</td>
+      </tr>
+    </table>
+
+    <div class="quesito">
+      <p>39. Chi ha letto più libri?</p>
+      <label class="risposta"><input type="radio" name="q39" value="a"> a) Marco</label>
+      <label class="risposta"><input type="radio" name="q39" value="b"> b) Luca</label>
+    </div>
+
+    <div class="quesito">
+      <p>40. Quanti libri ha letto Anna?</p>
+      <label class="risposta"><input type="radio" name="q40" value="a"> a) 2</label>
+      <label class="risposta"><input type="radio" name="q40" value="b"> b) 4</label>
+    </div>
+
+    <div class="quesito">
+      <p>41. Chi ha letto 1 libro?</p>
+      <label class="risposta"><input type="radio" name="q41" value="a"> a) Luca</label>
+      <label class="risposta"><input type="radio" name="q41" value="b"> b) Anna</label>
+    </div>
+
+    <p style="margin-top: 20px;"><strong>Tabella 2 – Vendite di penne in una settimana</strong></p>
+    <table>
+      <tr>
+        <th>Giorno</th>
+        <th>Penne vendute</th>
+      </tr>
+      <tr>
+        <td>Lunedì</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Martedì</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>Mercoledì</td>
+        <td>7</td>
+      </tr>
+    </table>
+
+    <div class="quesito">
+      <p>42. In quale giorno si sono vendute più penne?</p>
+      <label class="risposta"><input type="radio" name="q42" value="a"> a) Mercoledì</label>
+      <label class="risposta"><input type="radio" name="q42" value="b"> b) Martedì</label>
+    </div>
+
+    <div class="quesito">
+      <p>43. Quante penne sono state vendute il lunedì?</p>
+      <label class="risposta"><input type="radio" name="q43" value="a"> a) 5</label>
+      <label class="risposta"><input type="radio" name="q43" value="b"> b) 7</label>
+    </div>
+  </div>
+
+  <!-- SEZIONE H -->
+  <div class="sezione">
+    <h2>Sezione H – Statistica di base (4 quesiti)</h2>
+
+    <p><strong>Tabella – Numero di merendine mangiate in un giorno</strong></p>
+    <table>
+      <tr>
+        <th>Studente</th>
+        <th>Merendine</th>
+      </tr>
+      <tr>
+        <td>Anna</td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td>Marco</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>Luca</td>
+        <td>3</td>
+      </tr>
+    </table>
+
+    <div class="quesito">
+      <p>44. Quante merendine ha mangiato Marco?</p>
+      <label class="risposta"><input type="radio" name="q44" value="a"> a) 3</label>
+      <label class="risposta"><input type="radio" name="q44" value="b"> b) 2</label>
+    </div>
+
+    <div class="quesito">
+      <p>45. Qual è il numero di merendine più frequente (la moda)?</p>
+      <label class="risposta"><input type="radio" name="q45" value="a"> a) 3</label>
+      <label class="risposta"><input type="radio" name="q45" value="b"> b) 2</label>
+    </div>
+
+    <div class="quesito">
+      <p>46. Calcola la media delle merendine mangiate dai tre studenti.<br>
+      Somma: 2 + 3 + 3 = 8<br>
+      Numero di studenti: 3<br>
+      La media è:</p>
+      <label class="risposta"><input type="radio" name="q46" value="a"> a) 8 ÷ 3 ≈ 2,7</label>
+      <label class="risposta"><input type="radio" name="q46" value="b"> b) 8 ÷ 2 = 4</label>
+    </div>
+
+    <p style="margin-top: 20px;"><strong>Elenco – Voti in matematica</strong><br>
+    Voti di Sara: 6, 7, 7</p>
+
+    <div class="quesito">
+      <p>47. Qual è la media dei voti di Sara?<br>
+      Somma: 6 + 7 + 7 = 20<br>
+      Numero di voti: 3<br>
+      La media è:</p>
+      <label class="risposta"><input type="radio" name="q47" value="a"> a) 20 ÷ 3 ≈ 6,7</label>
+      <label class="risposta"><input type="radio" name="q47" value="b"> b) 20 ÷ 2 = 10</label>
+    </div>
+  </div>
+
+</div>
+
+<div class="bottoni">
+  <button id="btnCorreggi">✓ Correggi la prova</button>
+  <button id="btnSalva">💾 Salva risultati</button>
+  <button id="btnRipristina">↻ Azzera risposte</button>
+</div>
+
+<div class="nota-salvataggio" id="notaSalvataggio">✓ Risultati salvati con successo!</div>
+
+<div class="punteggio-box" id="punteggio-box" style="display: none;"></div>
+
+<div class="risposte-view" id="risposte-view"></div>
+
+<script>
+  const soluzioni = {
+    q1: 'a', q2: 'a', q3: 'a', q4: 'a', q5: 'a', q6: 'a', q7: 'a', q8: 'a', q9: 'a', q10: 'a',
+    q11: 'a', q12: 'a', q13: 'a', q14: 'a', q15: 'a', q16: 'a', q17: 'a', q18: 'a', q19: 'a', q20: 'a',
+    q21: 'a', q22: 'a', q23: 'a', q24: 'a', q25: 'a', q26: 'a', q27: 'a', q28: 'a', q29: 'a', q30: 'a',
+    q31: 'b', q32: 'a', q33: 'a', q34: 'a', q35: 'a', q36: 'a', q37: 'a', q38: 'a', q39: 'a', q40: 'a',
+    q41: 'a', q42: 'a', q43: 'a', q44: 'a', q45: 'a', q46: 'a', q47: 'a'
+  };
+
+  function aggiornaProgresso() {
+    let risposte = 0;
+    for (let i = 1; i <= 47; i++) {
+      const selezione = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selezione) risposte++;
+    }
+    const percentuale = Math.round((risposte / 47) * 100);
+    document.getElementById('progress-bar').style.width = percentuale + '%';
+    document.getElementById('progress-bar').textContent = percentuale + '%';
+    document.getElementById('progress-text').innerHTML = `<strong>Progresso: ${risposte}/47 risposte date</strong>`;
+  }
+
+  function correggiProva() {
+    let corrette = 0;
+    let errate = 0;
+    let non_risposte = 0;
+    let html = '<h2>📋 Riepilogo risposte</h2>';
+
+    for (let i = 1; i <= 47; i++) {
+      const selezione = document.querySelector(`input[name="q${i}"]:checked`);
+      const risposta = selezione ? selezione.value : null;
+      const corretta = soluzioni[`q${i}`];
+
+      if (!risposta) {
+        non_risposte++;
+        html += `<div class="risposta-item non-risposta"><strong>Q${i}:</strong> Non risposto (Corretta: ${corretta})</div>`;
+      } else if (risposta === corretta) {
+        corrette++;
+        html += `<div class="risposta-item corretta"><strong>Q${i}:</strong> ✓ Corretto (${corretta})</div>`;
+      } else {
+        errate++;
+        html += `<div class="risposta-item errata"><strong>Q${i}:</strong> ✗ Errato (Hai risposto: ${risposta}, Corretta: ${corretta})</div>`;
+      }
+    }
+
+    const punteggio = corrette;
+    const percentuale = Math.round((corrette / 47) * 100);
+
+    let fascia = '';
+    if (percentuale >= 90) fascia = 'eccellente';
+    else if (percentuale >= 70) fascia = 'buono';
+    else if (percentuale >= 60) fascia = 'sufficiente';
+    else fascia = 'insufficiente';
+
+    const punteggio_box = document.getElementById('punteggio-box');
+    punteggio_box.innerHTML = `
+      <p>PUNTEGGIO FINALE</p>
+      <p style="font-size: 36px;">${corrette}/47 (${percentuale}%)</p>
+      <p>Risposte corrette: <strong>${corrette}</strong> | Risposte errate: <strong>${errate}</strong> | Non risposte: <strong>${non_risposte}</strong></p>
+    `;
+    punteggio_box.className = `punteggio-box ${fascia}`;
+    punteggio_box.style.display = 'block';
+
+    document.getElementById('risposte-view').innerHTML = html;
+    document.getElementById('risposte-view').style.display = 'block';
+
+    window.scrollTo(0, 0);
+  }
+
+  function salvaRisultati() {
+    let dati = {
+      data: new Date().toLocaleString('it-IT'),
+      risposte: {}
+    };
+
+    for (let i = 1; i <= 47; i++) {
+      const selezione = document.querySelector(`input[name="q${i}"]:checked`);
+      dati.risposte[`q${i}`] = selezione ? selezione.value : null;
+    }
+
+    localStorage.setItem('prova_matematica', JSON.stringify(dati));
+    document.getElementById('notaSalvataggio').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('notaSalvataggio').style.display = 'none';
+    }, 3000);
+  }
+
+  function caricaDati() {
+    const dati = localStorage.getItem('prova_matematica');
+    if (dati) {
+      const obj = JSON.parse(dati);
+      for (let q in obj.risposte) {
+        if (obj.risposte[q]) {
+          document.querySelector(`input[name="${q}"][value="${obj.risposte[q]}"]`).checked = true;
+        }
+      }
+      aggiornaProgresso();
+    }
+  }
+
+  function azzera() {
+    if (confirm('Sei sicuro di voler cancellare tutte le risposte?')) {
+      document.querySelectorAll('input[type="radio"]').forEach(el => el.checked = false);
+      localStorage.removeItem('prova_matematica');
+      document.getElementById('punteggio-box').style.display = 'none';
+      document.getElementById('risposte-view').style.display = 'none';
+      aggiornaProgresso();
+    }
+  }
+
+  document.getElementById('btnCorreggi').addEventListener('click', correggiProva);
+  document.getElementById('btnSalva').addEventListener('click', salvaRisultati);
+  document.getElementById('btnRipristina').addEventListener('click', azzera);
+
+  document.querySelectorAll('input[type="radio"]').forEach(el => {
+    el.addEventListener('change', aggiornaProgresso);
+  });
+
+  window.addEventListener('load', caricaDati);
+</script>
+
+</body>
+</html>

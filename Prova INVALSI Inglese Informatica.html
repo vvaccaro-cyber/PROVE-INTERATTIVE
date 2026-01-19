@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROVA INVALSI INGLESE - PEI Differenziato</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            color: #0066cc;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .student-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #0066cc;
+        }
+
+        .info-field {
+            flex: 1;
+        }
+
+        .info-field label {
+            font-weight: 600;
+            color: #0066cc;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .info-field input {
+            border: none;
+            border-bottom: 1px solid #333;
+            width: 90%;
+            padding: 5px 0;
+            font-size: 14px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #0066cc;
+        }
+
+        .section-subtitle {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .text-box {
+            background-color: #f0f7ff;
+            padding: 15px;
+            border-left: 4px solid #0066cc;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        .text-box strong {
+            color: #0066cc;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #fafafa;
+            border-radius: 4px;
+        }
+
+        .question-number {
+            font-weight: 700;
+            color: #0066cc;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        .option {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option:hover {
+            background-color: #e8f2ff;
+        }
+
+        .option input[type="checkbox"],
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .option label {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .matching-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .matching-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 10px;
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .matching-left {
+            font-weight: 600;
+            width: 25%;
+            color: #333;
+        }
+
+        .matching-right {
+            width: 70%;
+            text-align: right;
+            border-bottom: 1px dotted #999;
+            padding-bottom: 5px;
+            min-width: 50px;
+        }
+
+        .gap-filling {
+            background-color: #fafafa;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .gap-text {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .gap-input {
+            border: none;
+            border-bottom: 2px solid #0066cc;
+            padding: 5px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        .instructions {
+            background-color: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .instructions strong {
+            color: #ff9800;
+        }
+
+        .solutions-section {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 50px;
+            page-break-before: always;
+        }
+
+        .solutions-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            font-size: 13px;
+        }
+
+        table thead {
+            background-color: #c8e6c9;
+            border-bottom: 2px solid #2e7d32;
+        }
+
+        table th {
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #1b5e20;
+        }
+
+        table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #a5d6a7;
+        }
+
+        table tbody tr:hover {
+            background-color: #f1f8f6;
+        }
+
+        .table-section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #2e7d32;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .notes-section {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 4px;
+            margin-top: 50px;
+            page-break-before: always;
+        }
+
+        .notes-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1565c0;
+            margin-bottom: 15px;
+        }
+
+        .note-box {
+            background-color: white;
+            padding: 15px;
+            border-left: 4px solid #1565c0;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .note-box strong {
+            color: #1565c0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .print-button {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .print-button:hover {
+            background-color: #0052a3;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .print-button {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .student-info {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .matching-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .matching-left {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .matching-right {
+                width: 100%;
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>📚 PROVA INVALSI – INGLESE INFORMATICO</h1>
+            <p>Prova interattiva con feedback immediato</p>
+        </div>
+
+        <!-- STUDENT INFO -->
+        <div class="student-info">
+            <div class="info-field">
+                <label>NOME ALUNNO:</label>
+                <input type="text">
+            </div>
+            <div class="info-field">
+                <label>DATA:</label>
+                <input type="text">
+            </div>
+            <div class="info-field">
+                <label>TEMPO: 60 minuti</label>
+            </div>
+        </div>
+
+        <!-- SEZIONE A -->
+        <div class="section">
+            <h2 class="section-title">📖 SEZIONE A – Reading Comprehension 1</h2>
+            <p class="section-subtitle">Leggi il testo con attenzione. Poi rispondi alle domande scegliendo la risposta corretta.</p>
+
+            <div class="text-box">
+                <strong>What is a Computer?</strong>
+                A computer is an electronic device. It has a processor, memory, and a hard disk. The processor is the brain of the computer. Memory stores information temporarily. The hard disk stores files permanently. A computer can be a desktop, a laptop, or a tablet. Computers need an operating system to work. Windows, macOS, and Linux are operating systems. Computers connect to the internet through a network adapter. The keyboard and mouse are input devices. The monitor and printer are output devices. Computers are used in schools, offices, and homes.
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda A.1</div>
+                <div class="question-text">What is the processor?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="A1" value="wrong1"> 
+                        <label>A) A storage device for files</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="A1" value="correct"> 
+                        <label>B) The brain of the computer</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda A.2</div>
+                <div class="question-text">What does memory do?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="A2" value="correct"> 
+                        <label>A) Stores information temporarily</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="A2" value="wrong1"> 
+                        <label>B) Displays images on screen</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda A.3</div>
+                <div class="question-text">Where are files stored permanently?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="A3" value="wrong1"> 
+                        <label>A) In memory</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="A3" value="correct"> 
+                        <label>B) On the hard disk</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda A.4</div>
+                <div class="question-text">An operating system is necessary for a computer to work.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="A4" value="correct"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="A4" value="wrong1"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEZIONE B -->
+        <div class="section">
+            <h2 class="section-title">🔗 SEZIONE B – Matching (Abbinamento)</h2>
+            <p class="section-subtitle">Abbina ogni cosa a quello che si fa. Scrivi la lettera giusta (A, B, C, D, E).</p>
+
+            <div class="instructions">
+                <strong>Funzioni disponibili:</strong><br>
+                A) Shows images and videos<br>
+                B) Allows you to click and select<br>
+                C) Lets you type text<br>
+                D) Connects to the internet<br>
+                E) Prints documents on paper
+            </div>
+
+            <div class="matching-section">
+                <div class="matching-item">
+                    <div class="matching-left"><strong>B.1 Monitor</strong></div>
+                    <div class="matching-right"><input type="text" class="matching-input" data-question="B1" maxlength="1"></div>
+                </div>
+                <div class="matching-item">
+                    <div class="matching-left"><strong>B.2 Keyboard</strong></div>
+                    <div class="matching-right"><input type="text" class="matching-input" data-question="B2" maxlength="1"></div>
+                </div>
+                <div class="matching-item">
+                    <div class="matching-left"><strong>B.3 Mouse</strong></div>
+                    <div class="matching-right"><input type="text" class="matching-input" data-question="B3" maxlength="1"></div>
+                </div>
+                <div class="matching-item">
+                    <div class="matching-left"><strong>B.4 Network Adapter</strong></div>
+                    <div class="matching-right"><input type="text" class="matching-input" data-question="B4" maxlength="1"></div>
+                </div>
+                <div class="matching-item">
+                    <div class="matching-left"><strong>B.5 Printer</strong></div>
+                    <div class="matching-right"><input type="text" class="matching-input" data-question="B5" maxlength="1"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEZIONE C -->
+        <div class="section">
+            <h2 class="section-title">📖 SEZIONE C – Reading Comprehension 2</h2>
+            <p class="section-subtitle">Leggi il testo con attenzione. Poi rispondi alle domande scegliendo la risposta corretta.</p>
+
+            <div class="text-box">
+                <strong>Software and Hardware</strong>
+                Software and hardware are two important parts of a computer. Hardware is the physical part. Hardware includes the processor, the hard disk, the keyboard, the monitor, and the mouse. Software is the programs and applications. Windows, macOS, and Linux are operating systems. Word and Excel are application software. Internet browsers like Chrome and Firefox are software. Hardware cannot work without software. Software cannot run without hardware. Together, hardware and software make the computer work. Users interact with the computer through software and hardware.
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda C.1</div>
+                <div class="question-text">What is hardware?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="C1" value="wrong1"> 
+                        <label>A) Programs and applications</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="C1" value="correct"> 
+                        <label>B) The physical part of a computer</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda C.2</div>
+                <div class="question-text">Which one is software?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="C2" value="wrong1"> 
+                        <label>A) Keyboard</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="C2" value="correct"> 
+                        <label>B) Word</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda C.3</div>
+                <div class="question-text">What does an operating system do?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="C3" value="correct"> 
+                        <label>A) It is software that controls the computer</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="C3" value="wrong1"> 
+                        <label>B) It stores files on the hard disk</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda C.4</div>
+                <div class="question-text">Software can run without hardware.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="C4" value="wrong1"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="C4" value="correct"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEZIONE D -->
+        <div class="section">
+            <h2 class="section-title">✅ SEZIONE D – Vero o Falso</h2>
+            <p class="section-subtitle">Leggi ogni frase. Scrivi V (Vero) o F (Falso).</p>
+
+            <div class="question">
+                <div class="question-number">Domanda D.1</div>
+                <div class="question-text">A hard disk is a temporary storage device.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="D1" value="wrong1"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="D1" value="correct"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda D.2</div>
+                <div class="question-text">Windows is an operating system.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="D2" value="correct"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="D2" value="wrong1"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda D.3</div>
+                <div class="question-text">The mouse is an output device.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="D3" value="wrong1"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="D3" value="correct"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda D.4</div>
+                <div class="question-text">Hardware and software work together in a computer.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="D4" value="correct"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="D4" value="wrong1"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda D.5</div>
+                <div class="question-text">Chrome is an operating system.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="D5" value="wrong1"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="D5" value="correct"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEZIONE E -->
+        <div class="section">
+            <h2 class="section-title">📖 SEZIONE E – Reading Comprehension 3</h2>
+            <p class="section-subtitle">Leggi il testo con attenzione. Poi rispondi alle domande scegliendo la risposta corretta.</p>
+
+            <div class="text-box">
+                <strong>Internet and Data Security</strong>
+                The internet connects computers around the world. Data is information that travels on the internet. Every day, people send emails, files, and messages over the internet. Security is very important on the internet. Hackers are bad people who try to steal data. Passwords protect your accounts from hackers. A strong password has numbers, letters, and symbols. Never share your password with other people. Viruses are bad programs that damage your computer. Antivirus software protects your computer from viruses. When you download files, check them first. Public WiFi is not secure. Do not use public WiFi to access important information. Internet safety is everyone's responsibility.
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda E.1</div>
+                <div class="question-text">What is data?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="E1" value="correct"> 
+                        <label>A) Information that travels on the internet</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="E1" value="wrong1"> 
+                        <label>B) A computer device</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda E.2</div>
+                <div class="question-text">Who are hackers?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="E2" value="wrong1"> 
+                        <label>A) People who repair computers</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="E2" value="correct"> 
+                        <label>B) Bad people who try to steal data</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda E.3</div>
+                <div class="question-text">What protects your accounts from hackers?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="E3" value="correct"> 
+                        <label>A) Passwords</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="E3" value="wrong1"> 
+                        <label>B) Antivirus software</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda E.4</div>
+                <div class="question-text">What should a strong password contain?</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="E4" value="wrong1"> 
+                        <label>A) Only letters</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="E4" value="correct"> 
+                        <label>B) Numbers, letters, and symbols</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question">
+                <div class="question-number">Domanda E.5</div>
+                <div class="question-text">Public WiFi is secure for accessing important information.</div>
+                <div class="options">
+                    <div class="option">
+                        <input type="radio" name="E5" value="wrong1"> 
+                        <label>Vero</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" name="E5" value="correct"> 
+                        <label>Falso</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEZIONE F -->
+        <div class="section">
+            <h2 class="section-title">✏️ SEZIONE F – Gap Filling (Completa le frasi)</h2>
+            <p class="section-subtitle">Completa le frasi con la parola giusta. Scrivi la parola nello spazio.</p>
+
+            <div class="instructions">
+                <strong>Parole disponibili:</strong> password • virus • hacker • antivirus • email
+            </div>
+
+            <div class="gap-filling">
+                <div class="question">
+                    <div class="question-number">Domanda F.1</div>
+                    <div class="gap-text">A strong <input type="text" class="gap-input" data-question="F1"> protects your account.</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda F.2</div>
+                    <div class="gap-text">A <input type="text" class="gap-input" data-question="F2"> is a bad program that damages your computer.</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda F.3</div>
+                    <div class="gap-text">Never share your <input type="text" class="gap-input" data-question="F3"> with other people.</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda F.4</div>
+                    <div class="gap-text"><input type="text" class="gap-input" data-question="F4"> software protects your computer from viruses.</div>
+                </div>
+
+                <div class="question">
+                    <div class="question-number">Domanda F.5</div>
+                    <div class="gap-text">You can send messages and files through <input type="text" class="gap-input" data-question="F5">.</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <button class="print-button" onclick="checkAnswers()">✅ CONTROLLA RISPOSTE</button>
+            <button class="print-button" onclick="resetAnswers()" style="background-color: #666; margin-top: 10px;">🔄 AZZERA RISPOSTE</button>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div id="results" style="display: none; background-color: #e8f5e9; padding: 20px; border-radius: 4px; margin: 30px 0;">
+            <div class="solutions-title">📊 RISULTATI DELLA PROVA</div>
+            <div id="resultContent" style="background-color: white; padding: 20px; border-radius: 4px; margin-top: 15px;"></div>
+        </div>
+
+        <div class="footer">
+            <p>Prova INVALSI Inglese Informatico – Interattiva con Feedback Immediato</p>
+        </div>
+    </div>
+
+    <style>
+        .matching-input {
+            border: none;
+            border-bottom: 2px solid #0066cc;
+            padding: 5px;
+            width: 60px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .feedback-correct {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .feedback-wrong {
+            color: #c62828;
+            font-weight: 600;
+        }
+
+        .result-item {
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f5f5f5;
+            border-left: 4px solid #999;
+            border-radius: 4px;
+        }
+
+        .result-item.correct {
+            background-color: #c8e6c9;
+            border-left-color: #2e7d32;
+        }
+
+        .result-item.wrong {
+            background-color: #ffcdd2;
+            border-left-color: #c62828;
+        }
+    </style>
+
+    <script>
+        const correctAnswers = {
+            A1: "correct",
+            A2: "correct",
+            A3: "correct",
+            A4: "correct",
+            B1: "A",
+            B2: "C",
+            B3: "B",
+            B4: "D",
+            B5: "E",
+            C1: "correct",
+            C2: "correct",
+            C3: "correct",
+            C4: "correct",
+            D1: "correct",
+            D2: "correct",
+            D3: "correct",
+            D4: "correct",
+            D5: "correct",
+            E1: "correct",
+            E2: "correct",
+            E3: "correct",
+            E4: "correct",
+            E5: "correct",
+            F1: "password",
+            F2: "virus",
+            F3: "password",
+            F4: "Antivirus",
+            F5: "email"
+        };
+
+        function checkAnswers() {
+            let correct = 0;
+            let total = 0;
+            let resultHTML = "<div style='margin-bottom: 20px;'>";
+
+            // Check A section (radio buttons)
+            for (let i = 1; i <= 4; i++) {
+                const name = "A" + i;
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                const isCorrect = selected && selected.value === correctAnswers[name];
+                
+                resultHTML += createResultItem(name, isCorrect, selected ? selected.nextElementSibling.textContent : "Non risposto");
+                if (selected) total++;
+                if (isCorrect) correct++;
+            }
+
+            // Check C section (radio buttons)
+            for (let i = 1; i <= 4; i++) {
+                const name = "C" + i;
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                const isCorrect = selected && selected.value === correctAnswers[name];
+                
+                resultHTML += createResultItem(name, isCorrect, selected ? selected.nextElementSibling.textContent : "Non risposto");
+                if (selected) total++;
+                if (isCorrect) correct++;
+            }
+
+            // Check D section (radio buttons)
+            for (let i = 1; i <= 5; i++) {
+                const name = "D" + i;
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                const isCorrect = selected && selected.value === correctAnswers[name];
+                
+                resultHTML += createResultItem(name, isCorrect, selected ? selected.nextElementSibling.textContent : "Non risposto");
+                if (selected) total++;
+                if (isCorrect) correct++;
+            }
+
+            // Check E section (radio buttons)
+            for (let i = 1; i <= 5; i++) {
+                const name = "E" + i;
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                const isCorrect = selected && selected.value === correctAnswers[name];
+                
+                resultHTML += createResultItem(name, isCorrect, selected ? selected.nextElementSibling.textContent : "Non risposto");
+                if (selected) total++;
+                if (isCorrect) correct++;
+            }
+
+            // Check B section (matching - text inputs)
+            const matchingInputs = document.querySelectorAll(".matching-input");
+            matchingInputs.forEach(input => {
+                const question = input.getAttribute("data-question");
+                const userAnswer = input.value.toUpperCase().trim();
+                const isCorrect = userAnswer === correctAnswers[question];
+                
+                resultHTML += createResultItem(question, isCorrect, userAnswer || "Non risposto", correctAnswers[question]);
+                if (userAnswer) total++;
+                if (isCorrect) correct++;
+            });
+
+            // Check F section (gap filling - text inputs)
+            const gapInputs = document.querySelectorAll(".gap-input");
+            gapInputs.forEach(input => {
+                const question = input.getAttribute("data-question");
+                if (question) {
+                    const userAnswer = input.value.toLowerCase().trim();
+                    const correctAnswer = correctAnswers[question].toLowerCase();
+                    const isCorrect = userAnswer === correctAnswer;
+                    
+                    resultHTML += createResultItem(question, isCorrect, userAnswer || "Non risposto", correctAnswers[question]);
+                    if (userAnswer) total++;
+                    if (isCorrect) correct++;
+                }
+            });
+
+            resultHTML += "</div>";
+
+            const percentage = total > 0 ? Math.round((correct / total) * 100) : 0;
+            const summary = `<div style='background-color: #e3f2fd; padding: 20px; border-radius: 4px; text-align: center; margin-bottom: 20px;'>
+                <h3 style='color: #1565c0; margin: 0;'>RISULTATI FINALI</h3>
+                <p style='font-size: 18px; margin: 10px 0;'><strong>${correct} su ${total} risposte corrette</strong></p>
+                <p style='font-size: 24px; color: #2e7d32; margin: 10px 0;'><strong>${percentage}%</strong></p>
+            </div>`;
+
+            document.getElementById("resultContent").innerHTML = summary + resultHTML;
+            document.getElementById("results").style.display = "block";
+            window.scrollTo(0, document.getElementById("results").offsetTop - 100);
+        }
+
+        function createResultItem(question, isCorrect, userAnswer, correctAnswer = "") {
+            const status = isCorrect ? "correct" : "wrong";
+            const icon = isCorrect ? "✓" : "✗";
+            const message = isCorrect ? "Corretto!" : "Scorretto";
+            
+            let detail = `<strong>${question}:</strong> ${userAnswer}`;
+            if (!isCorrect && correctAnswer) {
+                detail += ` → Risposta giusta: <strong>${correctAnswer}</strong>`;
+            }
+
+            return `<div class="result-item ${status}">
+                <span style="font-size: 18px; margin-right: 10px;">${icon}</span>
+                <span class="feedback-${status}">${message}</span><br>
+                <span style="margin-left: 28px; display: block; margin-top: 5px;">${detail}</span>
+            </div>`;
+        }
+
+        function resetAnswers() {
+            document.querySelectorAll("input[type='radio']").forEach(input => input.checked = false);
+            document.querySelectorAll("input[type='text']").forEach(input => input.value = "");
+            document.getElementById("results").style.display = "none";
+        }
+    </script>
+</body>
+</html>
